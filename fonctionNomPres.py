@@ -11,6 +11,7 @@ directory = "./speeches"
 files_names = list_of_files(directory, ".txt")
 print(files_names)
 
+
 def last_names(liste_fichiers):
     last_names =[]
     for i in liste_fichiers:
@@ -41,4 +42,23 @@ def display_names(full_names):
     for i in full_names:
         print(i)
 
-display_names((full_names((last_names(files_names)))))
+
+def replace(tab_speech):
+    for k in tab_speech :
+        f = open("speeches/"+k, "r", encoding="utf-8")
+        f2 = open("cleaned/"+k, "w", encoding="utf-8")
+
+        exeption = "çàéèêëï0123456789"
+        lines = f.readline()
+        while lines != "":
+            lines = lines.lower()
+            lines = lines.replace(chr(10), " ")
+            lines = lines.replace(" ", "/")
+            lines = [x if (x >= "a" and x <= "z") or x in exeption else " " for x in lines]
+            lines = "".join(lines)
+            print(lines)
+            f2.write(lines)
+            lines = f.readline()
+        f.close()
+        f2.close()
+
