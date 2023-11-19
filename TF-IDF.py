@@ -8,19 +8,31 @@ def list_of_files(directory, extension): #function to extract the file names
             files_names.append(filename)
     return files_names
 
-
 directory_cleaned = "./cleaned"
 files_names = list_of_files(directory_cleaned, ".txt") #creates the list of the files names we're working on
 print(files_names)
 
-def Term_Frequency(words_from_speech): #return a dictionnary with the number of occurence of a word in a given list of words
+
+def Term_Frequency(string): #return a dictionnary with the number of occurence of a word in a given string
     occurence = {}
-    for i in words_from_speech:
+
+    words = string.split(" ") #we just want the words themselves
+    while '' in words:
+        words.remove('')
+
+    for i in words:
         if len(i) >= 1:
             if i not in occurence.keys():
                 occurence[i] = 1
             else:
                 occurence[i] += 1
+    return occurence
+
+'''
+TEST Term_Frequency
+f = open(("./cleaned/Nomination_Hollande.txt") ,"r",encoding='utf-8')
+print(Term_Frequency(f.readline()))
+'''
 
 def list_of_words(file_name): #creates a list of the words in a given .txt file
     f = open(("./cleaned/"+file_name) ,"r",encoding='utf-8')
@@ -31,14 +43,15 @@ def list_of_words(file_name): #creates a list of the words in a given .txt file
     f.close()
     return mots
 
-#uses the function above to create a list of 8 elements, containing lists of the words of the 8 speeches
-list_of_list_of_words = []
-for i in files_names:
-    list_of_list_of_words.append(list_of_words(i))
-
 #calculates the IDF scores of each words in a list of list of the words used in each speech
-def IDF_scores(list_of_list_of_words):
+def IDF_scores(directory): #on donne ./cleaned
     IDF_Score = {}
+
+    list_of_list_of_words = []  #makes a list of the lists of words cointained in each speech
+    files_names = list_of_files(directory, ".txt")
+    for i in files_names:
+        list_of_list_of_words.append(list_of_words(i))
+
     for speeches in list_of_list_of_words: #we look at each speech
         for word in speeches:   #then at each word in that speech
             if word not in IDF_Score.keys():    #we only look for new words to not have them in double
@@ -48,8 +61,9 @@ def IDF_scores(list_of_list_of_words):
                         IDF_Score[word] += 1
     for keys in IDF_Score.keys():
         IDF_Score[keys] = math.log(1/IDF_Score[keys]) #finally we calculate the logarithm of the inverse of the number of speeches each word is in
-    print(IDF_Score)
+    return IDF_Score
 
+print(IDF_scores(('./cleaned')))
 
-def TF_IDF_matric(directory):
+def TF_IDF_matrix(directory):
     return
