@@ -4,9 +4,10 @@ occurence = {}
 
 motparmot = txt.split(" ")
 for i in motparmot:
-    if i not in occurence.keys():
-        occurence[i] = 1
-    else:
-        occurence[i] += 1
+    if len(i) >= 1:
+        if i not in occurence.keys():
+            occurence[i] = 1
+        else:
+            occurence[i] += 1
 
 print (occurence)
