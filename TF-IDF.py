@@ -60,7 +60,7 @@ def IDF_scores(directory): #on donne ./cleaned
                     if word in k:
                         IDF_Score[word] += 1
     for keys in IDF_Score.keys():
-        IDF_Score[keys] = math.log(1/IDF_Score[keys]) #finally we calculate the logarithm of the inverse of the number of speeches each word is in
+        IDF_Score[keys] = math.log(8/IDF_Score[keys]) #finally we calculate the logarithm of the inverse of the number of speeches each word is in
     return IDF_Score
 
 print(IDF_scores(('./cleaned')))
