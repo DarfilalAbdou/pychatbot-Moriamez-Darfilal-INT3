@@ -56,6 +56,7 @@ def replace(tab_speech):
             lines = lines.replace(" ", "/")
             lines = [x if (x >= "a" and x <= "z") or x in exeption else " " for x in lines]
             lines = "".join(lines)
+
             print(lines)
             f2.write(lines)
             lines = f.readline()
