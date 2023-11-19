@@ -44,18 +44,28 @@ def display_names(full_names):
 
 
 def replace(tab_speech):
+    #Do the code for each document in the list of document
+
     for k in tab_speech :
         f = open("speeches/"+k, "r", encoding="utf-8")
+
+        #Write the text in a document in cleaned folder with the same name as non cleaned document
         f2 = open("cleaned/"+k, "w", encoding="utf-8")
 
-        exeption = "çàéèêëï0123456789"
+        exeption = "çàéèêëïù0123456789"
+        #Start reading each lines in the doc
         lines = f.readline()
         while lines != "":
+            #Turn each letter in lowercase
             lines = lines.lower()
+
+            #delete every \n
             lines = lines.replace(chr(10), " ")
-            lines = lines.replace(" ", "/")
+            #We keep every letter and special letter in "exeption" in lines, otherwise the symbols become space
             lines = [x if (x >= "a" and x <= "z") or x in exeption else " " for x in lines]
+            #Change list into string
             lines = "".join(lines)
+            #Write the string in cleaned document
             f2.write(lines)
             lines = f.readline()
         f.close()
