@@ -41,5 +41,6 @@ def IDF_scores(list_of_speeches_words):
                         IDF_Score[word] += 1
     for keys in IDF_Score.keys():
         IDF_Score[keys] = math.log(1/IDF_Score[keys]) #finally we calculate the logarithm of the inverse of the number of speeches each word is in
-    return IDF_Score
-#IDF_scores(list_of_speeches_words())
+    print(IDF_Score)
+
+IDF_scores(list_of_speeches_words())
