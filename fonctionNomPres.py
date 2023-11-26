@@ -9,14 +9,17 @@ def list_of_files(directory, extension):
 
 directory = "./speeches"
 files_names = list_of_files(directory, ".txt")
-print(files_names)
+#print(files_names)
 
 
 def last_names(liste_fichiers):
     last_names =[]
+    integer="0123456789"
     for i in liste_fichiers:
         name = i.split("_")
+        name[1] = "".join(x for x in name[1] if not x in integer)
         last_names.append(name[1][:len(name[1])-4])
+        last_names= list(set(last_names))
 
     return last_names
 
@@ -71,5 +74,5 @@ def replace(tab_speech):
         f.close()
         f2.close()
 
-#siuuuuu
 
+#print(last_names(files_names))

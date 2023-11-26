@@ -8,8 +8,8 @@ def list_of_files(directory, extension): #function to extract the file names in 
             files_names.append(filename)
     return files_names
 
-def list_of_words(file_name): #creates a list of the words in a given .txt file
-    f = open(("./cleaned/"+file_name) ,"r",encoding='utf-8')
+def list_of_words(directory, file_name): #creates a list of the words in a given .txt file
+    f = open((directory+"/"+file_name) ,"r",encoding='utf-8')
     lines = f.readline()
     words = lines.split(" ")
     while '' in words:
@@ -20,11 +20,11 @@ def list_of_words(file_name): #creates a list of the words in a given .txt file
 #calculates the IDF scores of each words in a list of list of the words used in each speech
 def IDF_scores(directory): #we give ./cleaned
     IDF_Score = {}
-
     list_of_list_of_words = []  #makes a list of the lists of words cointained in each speech
     files_names = list_of_files(directory, ".txt")
+    number_of_files=len(files_names)
     for i in files_names:
-        list_of_list_of_words.append(list_of_words(i))
+        list_of_list_of_words.append(list_of_words(directory, i))
 
     for speeches in list_of_list_of_words: #we look at each speech
         for word in speeches:   #then at each word in that speech
@@ -34,11 +34,11 @@ def IDF_scores(directory): #we give ./cleaned
                     if word in k:
                         IDF_Score[word] += 1
     for keys in IDF_Score.keys():
-        IDF_Score[keys] = math.log(8/IDF_Score[keys]) #finally we calculate the logarithm of the inverse of the number of speeches each word is in
+        IDF_Score[keys] = math.log(number_of_files/IDF_Score[keys]) #finally we calculate the logarithm of the inverse of the number of speeches each word is in
     return IDF_Score
 
-def TF(fichier): #counts the number of words present in a given .txt file and returns it in the form of a dictionnary
-    f=open("cleaned/"+fichier, "r", encoding="utf-8")
+def TF(directory,fichier): #counts the number of words present in a given .txt file and returns it in the form of a dictionnary
+    f=open(directory+"/"+fichier, "r", encoding="utf-8")
     lines=f.readline()
     lines= lines.split(" ")
     occurence={}
@@ -48,6 +48,7 @@ def TF(fichier): #counts the number of words present in a given .txt file and re
                 occurence[i] = 1
             else:
                 occurence[i] += 1
+    f.close()
     return occurence
 
 #makes a matrix with for each row, the total words in all the documents, and for each column the corresponding document
@@ -59,7 +60,7 @@ def matrice(directory): #we give './cleaned'
 
     files_names = list_of_files(directory, ".txt")
     for file in files_names:    #for each file
-        tf = TF(file)           #we take its words occurence (term frequency)
+        tf = TF(directory, file)           #we take its words occurence (term frequency)
         for key in idf_scores.keys():   #and we compare its terms with their IDF scores
             if key in tf.keys():
                 dico_mat[key].append(idf_scores[key]*tf[key])
@@ -77,5 +78,4 @@ def matrice(directory): #we give './cleaned'
     return dico_mat
 
 
-#for i in matrice('./cleaned'): #displays the matrix, its content row by row, but without the first pair of [] that make it a list of list
-#    print(i)
+print(matrice('./merged')) #displays the matrix, its content row by row, but without the first pair of [] that make it a list of list
