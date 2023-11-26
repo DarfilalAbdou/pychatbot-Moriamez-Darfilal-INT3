@@ -188,9 +188,9 @@ def most_repeated_word(file1, file2):
     maxi = 0
     word = ''
     for k in occu1.keys():
-        if occu1[i] > maxi:
-            maxi = occu1[i]
-            word = i
+        if occu1[k] > maxi:
+            maxi = occu1[k]
+            word = k
 
     return word
 
