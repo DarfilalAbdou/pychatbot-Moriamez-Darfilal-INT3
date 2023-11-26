@@ -112,6 +112,7 @@ def first_to_talk(word):
 # A private function that create, in a private folder, a merged version of each speech so it's one per person
 # Example Chirac1 and Chirac2 is merged into one Chirac
 def __merge(start, destination):
+
     lastname = last_names(list_of_files(start, "txt"))
     listfile = list_of_files(start, "txt")
     # For each file we check if it correspond to a name.
@@ -132,7 +133,7 @@ def __merge(start, destination):
                 f1.close()
 
 
-# __merge("./cleaned","./merged")
+__merge("./cleaned","./merged")
 
 # function to know which word every president mentioned w/o uninportant
 def important(directory):
