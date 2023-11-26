@@ -67,14 +67,15 @@ def matrice(directory): #we give './cleaned'
                 dico_mat[key].append(0)
 
     #remove triple quotes to have a readable display with first the word, then it's list of tf-idf score for each document
-    '''for k in dico_mat.keys(): 
+    '''for k in dico_mat.keys():
         print(k,dico_mat[k])'''
 
     MAT = []    #we now convert the dictionnary to a matrix as asked, but it is less readable
     for lists in dico_mat.values():
         MAT.append(lists)
-    return MAT
+    #return MAT
+    return dico_mat
 
 
-for i in matrice('./cleaned'): #displays the matrix, its content row by row, but without the first pair of [] that make it a list of list
-    print(i)
+#for i in matrice('./cleaned'): #displays the matrix, its content row by row, but without the first pair of [] that make it a list of list
+#    print(i)
