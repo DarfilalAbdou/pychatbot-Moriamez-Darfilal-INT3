@@ -1,0 +1,17 @@
+# pychatbot-Moriamez-Darfilal-INT3
+Abdou-Samad Darfilal
+Eliott Moriamez
+
+https://github.com/DarfilalAbdou/pychatbot-Moriamez-Darfilal-INT3
+
+This python program currently have all the functions of the first part with the features to be developped. All the functionalities are displayed clearly once you run the code :
+
+To run the code properly make sure to have all the files in the zip files in the same folder otherwise the program will not find the path to it.
+After that all you have to do is run the code and select in the menu given the functionalities that you want to test.
+The default directory is said to be to the cleaned directory since it's the one we are mainly working with. Also for some functions that uses singular files
+it is necessary to give manually the files that you want to test. 
+WATCH OUT for the spelling since if it's not perfectly matching, the code will show an error.
+
+Enjoy our work !
+
+
