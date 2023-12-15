@@ -1,5 +1,6 @@
 from functions import *
 from math import *
+from test import *
 
 def dico_into_matrix(dico):
     M = []
@@ -18,13 +19,8 @@ def translate_matrix(M):
     return m
 
 
-'''print(matrice('.\cleaned'))
 M = dico_into_matrix(matrice('.\cleaned'))
-for i in M:
-    print(i)
 m = translate_matrix(M)
-for i in m:
-    print(i)'''
 
 def scalar_product(A, B): #A and B being two vectors
     sum = 0
@@ -38,4 +34,18 @@ def norm(A): #A being a vector
         sum += i**2
     return sqrt(sum)
 
-print(norm([3,4]))
+def similarity(A,B): #A and B being two vectors
+    scalar = scalar_product(A, B)
+    normA = norm(A)
+    normB = norm(B)
+    return scalar/(normA*normB)
+
+question = "Peux-tu me dire comment une nation peut-elle prendre soin du climat ?"
+
+Question_Vector = dico_into_matrix(TF_IDF_question(question))
+Doc1_Vector = m[5]
+print(Question_Vector)
+print(Doc1_Vector)
+for i in range(8):
+    print(similarity(Question_Vector, m[i]))
+    print(similarity(m[i], Question_Vector))
