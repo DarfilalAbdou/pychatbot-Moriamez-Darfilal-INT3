@@ -1,5 +1,5 @@
 import os
-from math import log
+from math import log10
 
 def list_of_files(directory, extension):
     files_names = []
@@ -103,7 +103,7 @@ def IDF_scores(directory): #we give ./cleaned
                     if word in k:
                         IDF_Score[word] += 1
     for keys in IDF_Score.keys():
-        IDF_Score[keys] = log(number_of_files/IDF_Score[keys]) #finally we calculate the logarithm of the inverse of the number of speeches each word is in
+        IDF_Score[keys] = log10(number_of_files/IDF_Score[keys]) #finally we calculate the logarithm of the inverse of the number of speeches each word is in
     return IDF_Score
 
 
@@ -178,19 +178,22 @@ def highest_score(dico):
 def most_repeated_word(file1, file2):
     occu1 = TF('./cleaned', file1)
     occu2 = TF('./cleaned', file2)
-
+    least_important_words = least_important(matrice('./cleaned'))
+    print(least_important_words)
     for i in occu2.keys():
-        if i in occu1.keys():
-            occu1[i] += occu2[i]
-        else:
-            occu1[i] = occu2[i]
+        if i not in least_important_words:
+            if i in occu1.keys():
+                occu1[i] += occu2[i]
+            else:
+                occu1[i] = occu2[i]
 
     maxi = 0
     word = ''
     for k in occu1.keys():
-        if occu1[k] > maxi:
-            maxi = occu1[k]
-            word = k
+        if k not in least_important_words:
+            if occu1[k] > maxi:
+                maxi = occu1[k]
+                word = k
 
     return word
 

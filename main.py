@@ -59,7 +59,10 @@ while menu!=0:
             print(TF(directory,file_name))
 
       if menu == 6:
-            print(matrice(directory))
+            dico = matrice(directory)
+            for i in dico.keys():
+                  print(i, dico[i])
+            #print(matrice(directory))
 
       if menu == 7:
             print('the least important words are:')
