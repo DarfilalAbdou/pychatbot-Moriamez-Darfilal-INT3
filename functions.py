@@ -1,5 +1,5 @@
 import os
-from math import log10
+from math import log10,sqrt
 
 def list_of_files(directory, extension):
     files_names = []
@@ -284,5 +284,129 @@ def important(directory):
         if j not in idfscore:
             l.append(j)
     return l
+
+
+def quest(st):
+    exeption = "çàéèêëïù0123456789"
+    # Start reading each lines in the doc
+    lines = st
+    # Turn each letter in lowercase
+    lines = lines.lower()
+
+    # delete every \n
+    lines = lines.replace(chr(10), "")
+    # We keep every letter and special letter in "exeption" in lines, otherwise the symbols become space
+    lines = [x if (x >= "a" and x <= "z") or x in exeption else " " for x in lines]
+    lines = ("".join(lines)).split(" ")
+    lines=[x for x in lines if len(x)>0]
+    return lines
+
+#print(quest("Pourquoi t'es pas bo comme ça ??"))
+
+def identify(list_word):
+
+    dico=IDF_scores("./cleaned")
+    lis=[]
+    for w in list_word:
+        if w in dico.keys():
+            lis.append(w)
+    return lis
+
+
+def TF_question(question):
+    occurence={}
+    lis=identify(question)
+    for i in question:
+        if len(i) >= 1: #to not have space occurences in the dictionary
+            if i not in occurence.keys():
+                occurence[i] = 1
+            else:
+                occurence[i] += 1
+    return occurence
+
+
+a=TF_question(quest("Pourquoi t'es pas bo comme ça ??"))
+
+def TF_IDF_question(question):
+    TF_IDF_Score = {}
+    question=quest(question)
+    score_global=IDF_scores("./cleaned")
+    TF = TF_question(question)
+    question_list=identify(question)
+    for word in score_global.keys():
+        #print(word)
+        if word in question_list:
+            TF_IDF_Score[word] = score_global[word]*TF[word]
+        else:
+            TF_IDF_Score[word] = 0
+    return TF_IDF_Score
+
+print(TF_IDF_question("Pourquoi t'es pas bo comme ça ??"))
+
+def dico_into_matrix(dico):
+    M = []
+    for i in dico.keys():
+        M.append(dico[i])
+    return M
+
+def translate_matrix(M):
+    m = []
+    n = len(M)
+    for j in range(len(M[0])):
+        temp = []
+        for i in range(n):
+            temp.append(M[i][j])
+        m.append(temp)
+    return m
+
+
+M = dico_into_matrix(matrice('.\cleaned'))
+m = translate_matrix(M)
+
+def scalar_product(A, B): #A and B being two vectors
+    sum = 0
+    print(B)
+    for i in range(len(A)):
+        sum += A[i]*B[i]
+    return sum
+
+def norm(A): #A being a vector
+    sum = 0
+    for i in A:
+        sum += i**2
+    return sqrt(sum)
+
+def similarity(A,B): #A and B being two vectors
+    scalar = scalar_product(A, B)
+    normA = norm(A)
+    normB = norm(B)
+    return scalar/(normA*normB)
+
+question = "Peux-tu me dire comment une nation peut-elle prendre soin du climat ?"
+
+Question_Vector = dico_into_matrix(TF_IDF_question(question))
+Doc1_Vector = m[5]
+print(Question_Vector)
+print(Doc1_Vector)
+for i in range(8):
+    print(similarity(Question_Vector, m[i]))
+    print(similarity(m[i], Question_Vector))
+
+
+
+M = dico_into_matrix(matrice('.\cleaned'))
+m = translate_matrix(M)
+def relevant(matrice, question_vector, files_names):
+    maxi=0,0
+    j=0
+    for i in files_names:
+        a=similarity(matrice[j], dico_into_matrix(question_vector))
+
+        if a > maxi[0]:
+            maxi = a,i
+
+    return maxi
+
+print(relevant(m,TF_IDF_question("Pourquoi t'es pas bo comme ça ??"),list_of_files("./cleaned","txt")))
 
 
