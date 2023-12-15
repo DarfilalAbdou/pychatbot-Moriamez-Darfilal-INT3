@@ -42,19 +42,25 @@ def TF_question(question):
 a=TF_question(quest("Pourquoi t'es pas bo comme ça ??"))
 
 def TF_IDF_question(question):
-    IDF_Score = {}
+    TF_IDF_Score = {}
     question=quest(question)
-    score=IDF_scores("./cleaned")
+    score_global=IDF_scores("./cleaned")
     TF = TF_question(question)
-    question_=identify(question)
-    for word in question_:
-        print(word)
-        if word in score:
-            IDF_Score[word] = score[word]*TF[word]
+    question_list=identify(question)
+    for word in score_global.keys():
+        #print(word)
+        if word in question_list:
+            TF_IDF_Score[word] = score_global[word]*TF[word]
         else:
-            IDF_Score[word] = 0
-    return IDF_Score
+            TF_IDF_Score[word] = 0
+    return TF_IDF_Score
 
 print(TF_IDF_question("Pourquoi t'es pas bo comme ça ??"))
+
+
+def TF_IDF_question_matrix():
+    pass
+
+
 
 
