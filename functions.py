@@ -126,7 +126,7 @@ def TF(directory,fichier): #counts the number of words present in a given .txt f
 
 
 #makes a matrix with for each row, the total words in all the documents, and for each column the corresponding document
-def matrice(directory): #we give './cleaned'
+def matrix(directory): #we give './cleaned'
     idf_scores = IDF_scores(directory)
     dico_mat = {}   #we start with a dictionnary where the keys are the words and the values are empty lists
     for i in idf_scores.keys():
@@ -151,7 +151,7 @@ def matrice(directory): #we give './cleaned'
     #return MAT
     return dico_mat
 
-
+#function to find the list of least important words (TF-IDF score of 0 everywhere(so the sum of all is 0))
 def least_important(dico):
     list_of_words = []
     for i in dico.keys():
@@ -160,7 +160,7 @@ def least_important(dico):
     return list_of_words
 
 
-
+#function to find the words with the highest TF-IDF score in the corpus
 def highest_score(dico):
     maxi = 0
     for i in dico.keys():
@@ -174,58 +174,55 @@ def highest_score(dico):
 
     return list_of_words
 
-
-def most_repeated_word(file1, file2):
-    occu1 = TF('./cleaned', file1)
-    occu2 = TF('./cleaned', file2)
-    least_important_words = least_important(matrice('./cleaned'))
-    print(least_important_words)
-    for i in occu2.keys():
+#function to find the most repeated word by a president
+def most_repeated_word(name):
+    occu1 = TF('./merged', name + '.txt')
+    occu = {}
+    least_important_words = least_important(matrix('./merged'))
+    for i in occu1.keys():
         if i not in least_important_words:
-            if i in occu1.keys():
-                occu1[i] += occu2[i]
-            else:
-                occu1[i] = occu2[i]
+            occu[i] = occu1[i]
 
-    maxi = 0
+    maxi = 0 #then finds the word with the most occurences
     word = ''
-    for k in occu1.keys():
+    for k in occu.keys():
         if k not in least_important_words:
-            if occu1[k] > maxi:
-                maxi = occu1[k]
+            if occu[k] > maxi:
+                maxi = occu[k]
                 word = k
 
     return word
+print(most_repeated_word('Macron'))
 
-
-
+#function to find the ones that said a given word, and the one that said it the most
 def specific_word(word):
     list_of_pres = []
     cpt = 0
     most_said_pres = []
     files_names = list_of_files('./cleaned', ".txt")
+
     for i in files_names:
-        if word in TF('./cleaned',i).keys():
+        if word in TF('./cleaned',i).keys():    #checks if a president said the word
             list_of_pres.append(i)
-            if TF('./cleaned',i)[word] > cpt:
+            if TF('./cleaned',i)[word] > cpt:   #checks how many times he said it to know if he's the one that said id the most
                 cpt = TF('./cleaned',i)[word]
                 most_said_pres = [i]
 
     list_of_pres = full_names(last_names(list_of_pres))
 
-    if most_said_pres[-5:] == '1.txt' or most_said_pres[-5:] == '2.txt':
+    if most_said_pres[-5:] == '1.txt' or most_said_pres[-5:] == '2.txt': #to avoid doubles
         most_said_pres = full_names(last_names(most_said_pres))[-1:]
     else:
         most_said_pres = full_names(last_names(most_said_pres))
 
     return list_of_pres, most_said_pres
 
-
+#function to know who is the first president to have said a given word
 def first_to_talk(word):
-    list_of_pres = specific_word(word)[0]
+    list_of_pres = specific_word(word)[0] #we give the list of president that said the word using the previous function
     oldest = ''
     if list_of_pres == []:
-        oldest = 'None'
+        oldest = 'None' #and then we just take the oldest with a list of if
     else:
         if 'Valery Giscard dEstaing' in list_of_pres:
             oldest = "Valery Giscard d'Estaing"
@@ -270,22 +267,22 @@ def __merge(start, destination):
 #__merge("./cleaned","./merged")
 
 
-# function to know which word every president mentioned w/o uninportant
+# function to know which word every president mentioned without unimportant ones
 def important(directory):
-    # We take the matrice of cleaned and merged to compare their "least_important"
-    idfscore = least_important(matrice(directory))
+    # We take the matrix of cleaned and merged to compare their "least_important"
+    idfscore = least_important(matrix(directory))
 
-    idfscore2 = least_important(matrice("./merged"))
+    idfscore2 = least_important(matrix("./merged"))
     l = []
     for j in idfscore2:
-        """if a word is in matrice merged and not in matrice cleaned, 
+        """if a word is in matrix merged and not in matrix cleaned, 
         then all the president talked about it either in the first or second speech 
         """
         if j not in idfscore:
             l.append(j)
     return l
 
-
+#function to tokenize the question (really close to the one for the speeches)
 def quest(st):
     exeption = "çàéèêëïù0123456789"
     # Start reading each lines in the doc
@@ -301,10 +298,8 @@ def quest(st):
     lines=[x for x in lines if len(x)>0]
     return lines
 
-#print(quest("Pourquoi t'es pas bo comme ça ??"))
-
+#function to have the list of words that are already in the corpus
 def identify(list_word):
-
     dico=IDF_scores("./cleaned")
     lis=[]
     for w in list_word:
@@ -312,7 +307,7 @@ def identify(list_word):
             lis.append(w)
     return lis
 
-
+#function to calculate the Term Frequency of the words of a question
 def TF_question(question):
     occurence={}
     lis=identify(question)
@@ -324,9 +319,7 @@ def TF_question(question):
                 occurence[i] += 1
     return occurence
 
-
-a=TF_question(quest("Pourquoi t'es pas bo comme ça ??"))
-
+#calculates the vector of the question (its TF-IDF score)
 def TF_IDF_question(question):
     TF_IDF_Score = {}
     question=quest(question)
@@ -334,20 +327,20 @@ def TF_IDF_question(question):
     TF = TF_question(question)
     question_list=identify(question)
     for word in score_global.keys():
-        #print(word)
         if word in question_list:
             TF_IDF_Score[word] = score_global[word]*TF[word]
         else:
             TF_IDF_Score[word] = 0
     return TF_IDF_Score
 
-
+#function to turn the dictionnary we have into a matrix
 def dico_into_matrix(dico):
     M = []
     for i in dico.keys():
         M.append(dico[i])
     return M
 
+#function to transpose a matrix
 def transpose_matrix(M):
     m = []
     n = len(M)
@@ -359,33 +352,37 @@ def transpose_matrix(M):
     return m
 
 
-M = dico_into_matrix(matrice('.\cleaned'))
+M = dico_into_matrix(matrix('.\cleaned'))
 m = transpose_matrix(M)
 
+#function to calculate a scalar product of two vectors
 def scalar_product(A, B): #A and B being two vectors
     sum = 0
     for i in range(len(A)):
         sum += A[i]*B[i]
     return sum
 
+#function to calculate the norm of a vector
 def norm(A): #A being a vector
     sum = 0
     for i in A:
         sum += i**2
     return sqrt(sum)
 
+#calculatesthe similarity of two vectors
 def similarity(A,B): #A and B being two vectors
     scalar = scalar_product(A, B)
     normA = norm(A)
     normB = norm(B)
     return scalar/(normA*normB)
 
-def relevant(matrice, question_vector, files_names):
+#calculates the most relevant document, returns the name of the document with the highest similarity score
+def relevant(matrix, question_vector, files_names):
     maxi=(0,0)
     j=0
     for i in files_names:
-        a=similarity(matrice[j], dico_into_matrix(question_vector))
-        if a > maxi[0]:
+        a=similarity(matrix[j], dico_into_matrix(question_vector))
+        if a > maxi[0]: #compares the similarity scores
             maxi = (a,i)
         j+=1
 
@@ -394,6 +391,7 @@ def relevant(matrice, question_vector, files_names):
 
 question_asked = input('Ask your question')
 
+#returns the most relevant word (highest tf-IDF score) in a question
 def most_relevant_word(question):
     dico = TF_IDF_question(question)
     maximum = -1
@@ -404,17 +402,18 @@ def most_relevant_word(question):
             word = i
     return(word)
 
+#gives the first sentence to have a given word in a given speech
 def sentence_with_word(file, word):
     sentences = ''
     directory = './speeches/' + file
     with open(directory, 'r', encoding="utf-8") as f:
         line = f.readlines()
         for i in line:
-            sentences = sentences + ' ' + i[:-1]
+            sentences = sentences + ' ' + i[:-1] #makes a string of all the text
 
-    for j in sentences.split('.'):
+    for j in sentences.split('.'): #splits it depending on the points
         if word in j:
-            return(j)
+            return(j) #and return the first sentece to hae the word we want
 
 relevant_file = (relevant(m,TF_IDF_question(question_asked),list_of_files("./cleaned","txt")))[1]
 print(sentence_with_word(relevant_file,most_relevant_word(question_asked)))
