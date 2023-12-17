@@ -192,7 +192,6 @@ def most_repeated_word(name):
                 word = k
 
     return word
-print(most_repeated_word('Macron'))
 
 #function to find the ones that said a given word, and the one that said it the most
 def specific_word(word):
@@ -389,7 +388,7 @@ def relevant(matrix, question_vector, files_names):
     return maxi
 
 
-question_asked = input('Ask your question')
+#question_asked = input('Ask your question')
 
 #returns the most relevant word (highest tf-IDF score) in a question
 def most_relevant_word(question):
@@ -413,7 +412,7 @@ def sentence_with_word(file, word):
 
     for j in sentences.split('.'): #splits it depending on the points
         if word in j:
-            return(j) #and return the first sentece to hae the word we want
+            return(j) #and return the first sentece to have the word we want
 
-relevant_file = (relevant(m,TF_IDF_question(question_asked),list_of_files("./cleaned","txt")))[1]
-print(sentence_with_word(relevant_file,most_relevant_word(question_asked)))
+#relevant_file = (relevant(m,TF_IDF_question(question_asked),list_of_files("./cleaned","txt")))[1]
+#print(sentence_with_word(relevant_file,most_relevant_word(question_asked)))
