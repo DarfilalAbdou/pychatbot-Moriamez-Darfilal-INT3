@@ -341,7 +341,6 @@ def TF_IDF_question(question):
             TF_IDF_Score[word] = 0
     return TF_IDF_Score
 
-print(TF_IDF_question("Pourquoi t'es pas bo comme ça ??"))
 
 def dico_into_matrix(dico):
     M = []
@@ -349,7 +348,7 @@ def dico_into_matrix(dico):
         M.append(dico[i])
     return M
 
-def translate_matrix(M):
+def transpose_matrix(M):
     m = []
     n = len(M)
     for j in range(len(M[0])):
@@ -361,11 +360,10 @@ def translate_matrix(M):
 
 
 M = dico_into_matrix(matrice('.\cleaned'))
-m = translate_matrix(M)
+m = transpose_matrix(M)
 
 def scalar_product(A, B): #A and B being two vectors
     sum = 0
-    print(B)
     for i in range(len(A)):
         sum += A[i]*B[i]
     return sum
@@ -382,20 +380,6 @@ def similarity(A,B): #A and B being two vectors
     normB = norm(B)
     return scalar/(normA*normB)
 
-question = "Peux-tu me dire comment une nation peut-elle prendre soin du climat ?"
-
-Question_Vector = dico_into_matrix(TF_IDF_question(question))
-Doc1_Vector = m[5]
-print(Question_Vector)
-print(Doc1_Vector)
-for i in range(8):
-    print(similarity(Question_Vector, m[i]))
-    print(similarity(m[i], Question_Vector))
-
-
-
-M = dico_into_matrix(matrice('.\cleaned'))
-m = translate_matrix(M)
 def relevant(matrice, question_vector, files_names):
     maxi=0,0
     j=0
@@ -407,6 +391,37 @@ def relevant(matrice, question_vector, files_names):
 
     return maxi
 
-print(relevant(m,TF_IDF_question("Pourquoi t'es pas bo comme ça ??"),list_of_files("./cleaned","txt")))
 
 
+
+##############################################################################################################
+###############################ASKING A QUESTION##############################################################
+##############################################################################################################
+question_asked = input('Ask your question')
+#Peux-tu me dire comment une nation peut-elle prendre soin du climat?
+
+def most_relevant_word(question):
+    dico = TF_IDF_question(question)
+    maximum = -1
+    word = ''
+    for i in dico.keys():
+        if dico[i] > maximum:
+            maximum = dico[i]
+            word = i
+    return(word)
+
+def sentence_with_word(file, word):
+    sentences = ''
+    directory = './speeches/' + file
+    with open(directory, 'r', encoding="utf-8") as f:
+        line = f.readlines()
+        for i in line:
+            sentences = sentences + ' ' + i[:-1]
+
+    for j in sentences.split('.'):
+        if word in j:
+            return(j)
+
+relevant_file = (relevant(m,TF_IDF_question(question_asked),list_of_files("./cleaned","txt")))[1]
+print(relevant_file, most_relevant_word(question_asked))
+print(sentence_with_word(relevant_file,most_relevant_word(question_asked)))
