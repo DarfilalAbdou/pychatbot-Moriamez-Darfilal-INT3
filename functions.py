@@ -381,24 +381,18 @@ def similarity(A,B): #A and B being two vectors
     return scalar/(normA*normB)
 
 def relevant(matrice, question_vector, files_names):
-    maxi=0,0
+    maxi=(0,0)
     j=0
     for i in files_names:
         a=similarity(matrice[j], dico_into_matrix(question_vector))
-
         if a > maxi[0]:
-            maxi = a,i
+            maxi = (a,i)
+        j+=1
 
     return maxi
 
 
-
-
-##############################################################################################################
-###############################ASKING A QUESTION##############################################################
-##############################################################################################################
 question_asked = input('Ask your question')
-#Peux-tu me dire comment une nation peut-elle prendre soin du climat?
 
 def most_relevant_word(question):
     dico = TF_IDF_question(question)
@@ -423,5 +417,4 @@ def sentence_with_word(file, word):
             return(j)
 
 relevant_file = (relevant(m,TF_IDF_question(question_asked),list_of_files("./cleaned","txt")))[1]
-print(relevant_file, most_relevant_word(question_asked))
 print(sentence_with_word(relevant_file,most_relevant_word(question_asked)))
