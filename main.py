@@ -78,14 +78,13 @@ while menu != -1:
                         print(IDF_scores(directory))
 
                   if menu == 5:
-                        file_name = input("Give the name of a file")
+                        file_name = input("Give the name of a file (ex: Nomination_Hollande.txt) ")
                         print(TF(directory,file_name))
 
                   if menu == 6:
                         dico = matrix(directory)
                         for i in dico.keys():
                               print(i, dico[i])
-                        #print(matrice(directory))
 
                   if menu == 7:
                         print('the least important words are:')
@@ -96,17 +95,27 @@ while menu != -1:
                         print(highest_score(matrix(directory)))
 
                   if menu == 9:
-                        print('\nthe most repeated word by Chirac is:')
-                        print(most_repeated_word('Nomination_Chirac1.txt','Nomination_Chirac2.txt'))
+                        name = input("Fo which president do you want to know his most repeated word? (Last name)")
+                        print('\nThe most repeated word by ' + name + ' is:')
+                        print(most_repeated_word(name))
 
                   if menu == 10:
-                        print('\nThe presidents that used the word Nation are:')
-                        display_names(specific_word('nation')[0])
-                        print("\nThe one that uses it the most is:")
-                        print(specific_word('nation')[1][0])
+                        word = input("What word are you looking for?")
+                        if specific_word(word) == ([],[]):
+                              print('Noone said that word')
+                        else:
+                              print('\nThe presidents that used the word ' + word + ' are:')
+                              display_names(specific_word(word)[0])
+                              print("\nThe one that uses it the most is:")
+                              print(specific_word(word)[1][0])
 
                   if menu == 11:
-                        first_to_talk('climat')
+                        word = input("What word are you looking for?")
+                        if first_to_talk(word) == '':
+                              print('Noone said that word')
+                        else:
+                              print('The first one to say this word was:')
+                              print(first_to_talk(word))
 
                   if menu == 12:
                         print(important(directory))

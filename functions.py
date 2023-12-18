@@ -195,6 +195,7 @@ def most_repeated_word(name):
 
 #function to find the ones that said a given word, and the one that said it the most
 def specific_word(word):
+    word = word.lower()
     list_of_pres = []
     cpt = 0
     most_said_pres = []
@@ -213,7 +214,6 @@ def specific_word(word):
         most_said_pres = full_names(last_names(most_said_pres))[-1:]
     else:
         most_said_pres = full_names(last_names(most_said_pres))
-
     return list_of_pres, most_said_pres
 
 #function to know who is the first president to have said a given word
@@ -236,7 +236,7 @@ def first_to_talk(word):
         else:
             oldest = 'Emmanuel Macron'
 
-    print(list_of_pres)
+    return oldest
 
 
 # A private function that create, in a private folder, a merged version of each speech so it's one per person
@@ -413,6 +413,3 @@ def sentence_with_word(file, word):
     for j in sentences.split('.'): #splits it depending on the points
         if word in j:
             return(j) #and return the first sentece to have the word we want
-
-#relevant_file = (relevant(m,TF_IDF_question(question_asked),list_of_files("./cleaned","txt")))[1]
-#print(sentence_with_word(relevant_file,most_relevant_word(question_asked)))
