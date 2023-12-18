@@ -24,26 +24,27 @@ while menu != -1:
 
 
       if menu == 1 :
-            while menu != 0:
-                  print("Please select a number to go through the menu \n  Menu : \n"
-                        "To quit the application select -1\n"
-                        "To quit the menu, select 0\n"
-                        "To display all the names select 1\n"
-                        "To create a cleaned version of all the text files in the folder select 2\n"
-                        "To display the list of words in a given file select 3\n"
-                        "To display the IDF score of all word in a corpus of files select 4\n"
-                        "To display the TF score of all word in a file select 5\n"
-                        "To display the TF-IDF matrix of a corpus of files select 6 \n"
-                        "To display the least important words in a corpus of files select 7\n"
-                        "To display the word with the highest TF-IDF score is, select 8\n"
-                        "To display the most repeted word by Chirac is, select 9 \n"
-                        "To display the name of the presidents who used the word Nation"
-                        "and repeted it the most times, select 10\n"
-                        "To display the name of the first president who talked about climate, select 11\n"
-                        "To display the words that all president said w/o the unimportant ones, select 12\n"
-                        "If you want to see the menu again, select 13")
+            print("Please select a number to go through the menu \n  Menu : \n"
+                  "To quit the application select -1\n"
+                  "To quit the menu, select 0\n"
+                  "To display all the names select 1\n"
+                  "To create a cleaned version of all the text files in the folder select 2\n"
+                  "To display the list of words in a given file select 3\n"
+                  "To display the IDF score of all word in a corpus of files select 4\n"
+                  "To display the TF score of all word in a file select 5\n"
+                  "To display the TF-IDF matrix of a corpus of files select 6 \n"
+                  "To display the least important words in a corpus of files select 7\n"
+                  "To display the word with the highest TF-IDF score is, select 8\n"
+                  "To display the most repeted word by Chirac is, select 9 \n"
+                  "To display the name of the presidents who used the word Nation"
+                  "and repeted it the most times, select 10\n"
+                  "To display the name of the first president who talked about climate, select 11\n"
+                  "To display the words that all president said w/o the unimportant ones, select 12\n"
+                  "If you want to see the menu again, select 13")
 
-                  menu=int(input("Choose the feature you want to try:"))
+            menu = int(input("Choose the feature you want to try:"))
+            while menu != 0:
+
                   if menu == 13:
                         print("Please select a number to go through the menu \n  Menu : \n"
                               "To quit the application select -1\n"                        
@@ -111,4 +112,7 @@ while menu != -1:
                         print(important(directory))
 
                   menu = int(input("Choose your action : "))
-      menu= int(input("Choose your action : "))
+
+      menu=int(input("To try our features, select 1\n"
+            "To talk with our chatbot, select 2\n"
+            "To quit, select -1\n"))
