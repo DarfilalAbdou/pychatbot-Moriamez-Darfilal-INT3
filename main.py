@@ -95,14 +95,14 @@ while menu != -1:
                         print(highest_score(matrix(directory)))
 
                   if menu == 9:
-                        name = input("Fo which president do you want to know his most repeated word? (Last name)")
+                        name = input("For which president do you want to know his most repeated word? (Last name)")
                         print('\nThe most repeated word by ' + name + ' is:')
                         print(most_repeated_word(name))
 
                   if menu == 10:
                         word = input("What word are you looking for?")
                         if specific_word(word) == ([],[]):
-                              print('Noone said that word')
+                              print('No one said that word')
                         else:
                               print('\nThe presidents that used the word ' + word + ' are:')
                               display_names(specific_word(word)[0])
@@ -112,7 +112,7 @@ while menu != -1:
                   if menu == 11:
                         word = input("What word are you looking for?")
                         if first_to_talk(word) == '':
-                              print('Noone said that word')
+                              print('No one said that word')
                         else:
                               print('The first one to say this word was:')
                               print(first_to_talk(word))
