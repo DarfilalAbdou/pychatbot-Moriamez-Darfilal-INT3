@@ -53,7 +53,7 @@ def replace(tab_speech): #Function to clean the text files
         #Write the text in a document in cleaned folder with the same name as non cleaned document
         f2 = open("cleaned/"+k, "w", encoding="utf-8")
 
-        exeption = "çàéèêëïù0123456789"
+        exeption = "çöôàéèêëïù0123456789"
         #Start reading each lines in the doc
         lines = f.readline()
         while lines != "":
