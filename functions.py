@@ -413,3 +413,4 @@ def sentence_with_word(file, word):
     for j in sentences.split('.'): #splits it depending on the points
         if word in j:
             return(j) #and return the first sentece to have the word we want
+        
